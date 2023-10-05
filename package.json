@@ -1,0 +1,23 @@
+{
+  "name": "desafio2023",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type":"module",
+  "scripts": {
+    "start":"",
+    
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/totoargumedo/NODE-CH-47345.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/totoargumedo/NODE-CH-47345/issues"
+  },
+  "homepage": "https://github.com/totoargumedo/NODE-CH-47345#readme"
+}
