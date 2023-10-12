@@ -36,26 +36,29 @@ class ProductManager {
     }
   }
 
-  async addProduct(product) {
+  async addProduct(data) {
     if (
-      !product.title ||
-      !product.description ||
-      !product.price ||
-      !product.code ||
-      !product.thumbnail ||
-      !product.stock
+      !data.title ||
+      !data.description ||
+      !data.price ||
+      !data.code ||
+      !data.thumbnail ||
+      !data.stock
     ) {
       return { success: false, response: "Faltan campos" };
     }
-    const codeCheck = this.#products.some((e) => e.code === product.code);
+    const codeCheck = this.#products.some((prod) => prod.code === data.code);
     if (codeCheck) {
       return { success: false, response: "El codigo de producto ya existe" };
     }
     this.#id++;
-    const one = { id: this.#id, ...product };
-    this.#products.push(one);
+    const product = { id: this.#id, ...product };
+    this.#products.push(product);
     await this.write();
-    return { success: true, response: `Producto con id:${one.id} agregado` };
+    return {
+      success: true,
+      response: `Producto con id:${product.id} agregado`,
+    };
   }
 
   getProducts() {
@@ -63,34 +66,33 @@ class ProductManager {
   }
 
   getProductById(id) {
-    const one = this.#products.find((product) => product.id == id);
-    return one
-      ? { success: true, response: one }
+    const product = this.#products.find((product) => product.id == id);
+    return product
+      ? { success: true, response: product }
       : { success: false, response: "Not found" };
   }
 
-  async updateProduct(id, product) {
+  async updateProduct(id, data) {
     //verificamos que venga informacion para actualizar
-    if (!product) {
+    if (!data) {
       return { success: false, response: "Nothing to update, fields missing" };
     }
 
     //buscar el producto por index, si no existe devolvemos not found
-    const index = this.#products.findIndex((prod) => prod.id == id);
-    if (index === -1) {
+    const product = this.#products.find((prod) => prod.id == id);
+    if (!product) {
       return { success: false, response: "Not found" };
     }
 
     //actualizamos producto con la informacion dada
     try {
-      const one = this.#products[index];
-      Object.keys(product).forEach((item) => {
-        if (one[item]) {
-          one[item] = product[item];
+      Object.keys(data).forEach((item) => {
+        if (product[item]) {
+          product[item] = data[item];
         }
       });
       await this.write();
-      return { success: true, response: one };
+      return { success: true, response: product };
     } catch (error) {
       console.log(`Error al actualizar el producto con id:${id}
                    Error. ${error}`);
