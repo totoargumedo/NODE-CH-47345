@@ -1,5 +1,6 @@
 # NODE-CH-47345
-# Desafio 1
+
+# Desafio 2
 
 Se crea clase manager para productos
 
@@ -12,14 +13,17 @@ npm run start
 ```
 
 El proyecto utiliza Javascript modules
+Guarda los cambios en archivos
+Puede traer un archivo ya existente, en caso de no encontrarlo, crea uno nuevo
 
 ## Uso
 
 ```javascript
 import ProductManager from (/managers/productManager.js)
 
-//Instanciar el manager, recibe el nombre de la colección
-const pokemones = new ProductManager("pokemones")
+//Instanciar el manager, recibe como primer parametro la ruta para guardar el archivo y como segundo el nombre de la colección
+//Trabaja con archivos JSON
+const pokemones = new ProductManager("./files/pokemones.json","pokemones")
 
 //Guarda un producto nuevo en la clase
 //Regresa un objeto con el id (se asigna automaticamente)
@@ -39,4 +43,14 @@ pokemones.getProducts()
 
 //Regresa el producto con el id indicado
 pokemones.getProductbyId(9)
+
+//Actualiza los campos enviados de un producto
+//Recibe como primer parametro el id del producto a actualizar
+//Recibe como segundo parametro el objeto con los campos y valores a actualizar
+//Regresa el producto actualizado
+pokemones.updateProduct(3, {stock:34,price:24000})
+
+//Elimina el producto con el id indicado
+//Regresa mensaje de confirmacion
+pokemones.deleteProduct(3)
 ```
