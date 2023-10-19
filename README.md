@@ -23,6 +23,12 @@ El servidor se inicia por defecto en puerto 8080 local
 ``/products``
 Devuelve todos los productos cargados en el archivo
 
+``/products?limit=3``
+Si se envia "limit" como query, devuelve esa cantidad de productos o el maximo si hay menos. En este caso devuelve los primeros 3 productos
+
+``/products/2``
+Si se especifica un numero de id, en este caso "2", devuelve el producto con id 2 en caso de que esxista
+
 ## Uso del manejador de archivos
 
 ```javascript
