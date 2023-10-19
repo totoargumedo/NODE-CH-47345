@@ -1,10 +1,11 @@
 # NODE-CH-47345
 
-# Desafio 2
+# Desafio 3
 
 Se crea clase manager para productos
+Se crea servidor http con rutas get
 
-## Inciar el script
+## Iniciar el server
 
 Se configuraron script en el [package.json](https://github.com/totoargumedo/NODE-CH-47345/blob/sprint1/package.json) para iniciar el archivo app.js con las pruebas
 
@@ -15,8 +16,14 @@ npm run start
 El proyecto utiliza Javascript modules
 Guarda los cambios en archivos
 Puede traer un archivo ya existente, en caso de no encontrarlo, crea uno nuevo
+El servidor se inicia por defecto en puerto 8080 local
 
-## Uso
+## Uso de las rutas
+
+``/products``
+Devuelve todos los productos cargados en el archivo
+
+## Uso del manejador de archivos
 
 ```javascript
 import ProductManager from (/managers/productManager.js)
