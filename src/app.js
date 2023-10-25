@@ -1,70 +1,56 @@
-import ProductManager from "./managers/productManager.js";
+import express from "express";
+import { productos } from "./controllers/products.js";
 
-console.log("Programa iniciado");
+//server
 
-//Instancia de ProductManager
-const lightsabers = new ProductManager(
-  "./src/db/lightsabers.json",
-  "lightsabers"
-);
+const app = express();
+const PORT = 8080;
 
-//Realizo una funcion asincrona para testear
-async function test() {
-  //Agregamos producto con todos los campos
-  await lightsabers.addProduct({
-    title: "Conde Dooku Rojo",
-    description: "Sable de luz rojo del Conde Dooku",
-    price: 18500,
-    code: "LSRCD3",
-    thumbnail:
-      "https://i.etsystatic.com/28256896/r/il/c6aa65/4725062999/il_794xN.4725062999_h1hn.jpg",
-    stock: 3,
-  });
-  //Agregamos producto con todos los campos
-  lightsabers.addProduct({
-    title: "Conde Dooku verde",
-    description: "Sable de verde rojo del Maestro Dooku",
-    price: 18500,
-    code: "LSVCD3",
-    thumbnail:
-      "https://i.etsystatic.com/28256896/r/il/c6aa65/4725062999/il_794xN.4725062999_h1hn.jpg",
-    stock: 3,
-  });
+//config
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-  //Agregamos producto con campo code repetido
-  await lightsabers.addProduct({
-    title: "Conde Dooku verde",
-    description: "Sable de verde rojo del Maestro Dooku",
-    price: 18500,
-    code: "LSVCD1",
-    thumbnail:
-      "https://i.etsystatic.com/28256896/r/il/c6aa65/4725062999/il_794xN.4725062999_h1hn.jpg",
-    stock: 3,
-  });
+//endpoints
 
-  //Agregamos producto con campo faltante
-  await lightsabers.addProduct({
-    title: "Conde Dooku verde",
-    description: "Sable de verde rojo del Maestro Dooku",
-    price: 18500,
-    thumbnail:
-      "https://i.etsystatic.com/28256896/r/il/c6aa65/4725062999/il_794xN.4725062999_h1hn.jpg",
-    stock: 3,
-  });
+app.get("/", (req, res) => {
+  res.send(
+    `<div style="height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+    <h1>WELCOME STRANGER</h1>
+    <h2>este es un div centrado</h2>
+    <h3>&#128517;</h3>
+    </div>`
+  );
+});
 
-  // Recuperamos todos los productos cargados
-  const all = lightsabers.getProducts();
-  console.log(all);
-  //Actualizamos producto con id 2
-  await lightsabers.updateProduct(2, { stock: 13, price: 20500 });
-  //Recuperamos producto con id existente
-  const one = await lightsabers.getProductById(2);
-  console.log(one);
+//endpoints productos
 
-  //eliminamos producto con id 4
-  await lightsabers.deleteProduct(4);
-}
+app.get("/products", (req, res) => {
+  //limite y productos
+  const limit = req.query.limit;
+  const all = productos.getProducts();
+  //revisamos si hay error en los productos
+  if (!all) {
+    return res.status(404).json({ success: false, response: "Something malo" });
+  }
+  //revisamos si hay limite
+  if (limit) {
+    //devolvemos la porcion de productos solicitada
+    return res
+      .status(200)
+      .json({ success: true, response: all.slice(0, limit) });
+  }
+  //devolvemos todos si no hay limite
+  res.status(200).json({ success: true, response: all });
+});
 
-setTimeout(() => {
-  test();
-}, 2000);
+app.get("/products/:id", (req, res) => {
+  const id = req.params.id;
+  const one = productos.getProductById(id);
+  res.status(200).json({ success: true, response: one });
+});
+
+//inicializacion server
+
+const httpServer = app.listen(PORT, () => {
+  console.log(`Server runnning on port ${PORT}`);
+});
