@@ -45,43 +45,39 @@ class ProductManager {
       !data.thumbnail ||
       !data.stock
     ) {
-      return { success: false, response: "Faltan campos" };
+      return "Faltan campos";
     }
     const codeCheck = this.#products.some((prod) => prod.code === data.code);
     if (codeCheck) {
-      return { success: false, response: "El codigo de producto ya existe" };
+      return "El codigo de producto ya existe";
     }
     this.#id++;
     const product = { id: this.#id, ...product };
     this.#products.push(product);
     await this.write();
-    return {
-      success: true,
-      response: `Producto con id:${product.id} agregado`,
-    };
+    return;
+    product.id;
   }
 
   getProducts() {
-    return { success: true, response: this.#products };
+    return this.#products;
   }
 
   getProductById(id) {
     const product = this.#products.find((product) => product.id == id);
-    return product
-      ? { success: true, response: product }
-      : { success: false, response: "Not found" };
+    return product ? product : "Not found";
   }
 
   async updateProduct(id, data) {
     //verificamos que venga informacion para actualizar
     if (!data) {
-      return { success: false, response: "Nothing to update, fields missing" };
+      return "Nothing to update, fields missing";
     }
 
     //buscar el producto por index, si no existe devolvemos not found
     const product = this.#products.find((prod) => prod.id == id);
     if (!product) {
-      return { success: false, response: "Not found" };
+      return "Not found";
     }
 
     //actualizamos producto con la informacion dada
@@ -92,7 +88,7 @@ class ProductManager {
         }
       });
       await this.write();
-      return { success: true, response: product };
+      return product;
     } catch (error) {
       console.log(`Error al actualizar el producto con id:${id}
                    Error. ${error}`);
@@ -103,14 +99,14 @@ class ProductManager {
     //buscar el producto por index, si no existe devolvemos not found
     const index = this.#products.findIndex((prod) => prod.id == id);
     if (index === -1) {
-      return { success: false, response: "Not found" };
+      return "Not found";
     }
 
     //borramos producto con el id dado
     try {
       this.#products.slice(this.#products[index], 1);
       await this.write();
-      return { success: true, response: "Product deleted" };
+      return "Product deleted";
     } catch (error) {
       console.log(`Error al eliminar el producto con id:${id}
                    Error. ${error}`);
