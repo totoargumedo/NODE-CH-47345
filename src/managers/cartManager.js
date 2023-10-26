@@ -1,12 +1,12 @@
 import fs from "fs";
 
-class ProductManager {
-  #products = [];
+class CartManager {
+  #carts = [];
   #id = 0;
   constructor(path, collectionName) {
     this.path = path;
     this.name = collectionName;
-    console.log(`Instancia de Product Manager ${this.name} creada`);
+    console.log(`Instancia de Cart Manager ${this.name} creada`);
     this.init();
   }
 
@@ -14,12 +14,10 @@ class ProductManager {
     try {
       if (fs.existsSync(this.path)) {
         const data = await fs.promises.readFile(this.path, "utf-8");
-        this.#products = JSON.parse(data);
+        this.#carts = JSON.parse(data);
         //actualizamos id
         this.#id =
-          this.#products.length != 0
-            ? this.#products[this.#products.length - 1].id
-            : 0;
+          this.#carts.length != 0 ? this.#carts[this.#carts.length - 1].id : 0;
 
         console.log(`Archivo ${this.path} correctamente cargado`);
         return;
@@ -32,7 +30,7 @@ class ProductManager {
 
   async write() {
     try {
-      await fs.promises.writeFile(this.path, JSON.stringify(this.#products));
+      await fs.promises.writeFile(this.path, JSON.stringify(this.#carts));
       console.log(`Archivo ${this.path} correctamente guardado`);
     } catch (error) {
       console.log(`Error al crear el archivo ${this.path}
@@ -51,7 +49,7 @@ class ProductManager {
     ) {
       return "Fields missing";
     }
-    const codeCheck = this.#products.some((prod) => prod.code === data.code);
+    const codeCheck = this.#carts.some((prod) => prod.code === data.code);
     if (codeCheck) {
       return "Invalid or repetead code";
     }
@@ -64,17 +62,17 @@ class ProductManager {
 
     this.#id++;
     const product = { id: this.#id, ...data };
-    this.#products.push(product);
+    this.#carts.push(product);
     await this.write();
     return product;
   }
 
   getProducts() {
-    return this.#products;
+    return this.#carts;
   }
 
   getProductById(id) {
-    const product = this.#products.find((product) => product.id == id);
+    const product = this.#carts.find((product) => product.id == id);
     return product ? product : "Not found";
   }
 
@@ -91,7 +89,7 @@ class ProductManager {
     }
     console.log(data);
     //buscar el producto por index, si no existe devolvemos not found
-    const product = this.#products.find((prod) => prod.id == id);
+    const product = this.#carts.find((prod) => prod.id == id);
     if (!product) {
       return "Not found";
     }
@@ -111,14 +109,14 @@ class ProductManager {
 
   async deleteProduct(id) {
     //buscar el producto por index, si no existe devolvemos not found
-    const index = this.#products.findIndex((prod) => prod.id == id);
+    const index = this.#carts.findIndex((prod) => prod.id == id);
     if (index === -1) {
       return "Not found";
     }
 
     //borramos producto con el id dado
     try {
-      this.#products.splice(index, 1);
+      this.#carts.splice(index, 1);
       await this.write();
       return "Product deleted";
     } catch (error) {
@@ -128,4 +126,4 @@ class ProductManager {
   }
 }
 
-export default ProductManager;
+export default CartManager;
