@@ -55,4 +55,17 @@ carts_router.delete("/:cid/product/:pid", async (req, res) => {
   }
 });
 
+carts_router.delete("/:cid", async (req, res) => {
+  try {
+    const { cid } = req.params;
+    const cart = await carritos.deleteCart(cid);
+    if (cart != "Cart deleted") {
+      return res.status(400).json({ success: false, response: cart });
+    }
+    return res.status(200).json({ success: true, response: cart });
+  } catch (error) {
+    return res.status(500).json({ success: false, response: error });
+  }
+});
+
 export default carts_router;

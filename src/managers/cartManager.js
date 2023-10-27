@@ -118,6 +118,24 @@ class CartManager {
       }
     }
   }
+
+  async deleteCart(cid) {
+    //buscar el producto por index, si no existe devolvemos not found
+    const index = this.#carts.findIndex((cart) => cart.id == cid);
+    if (index === -1) {
+      return "Not found";
+    }
+
+    //borramos producto con el id dado
+    try {
+      this.#carts.splice(index, 1);
+      await this.write();
+      return "Cart deleted";
+    } catch (error) {
+      console.log(`Error al eliminar el carrito con id:${id}
+                   Error. ${error}`);
+    }
+  }
 }
 
 export default CartManager;
