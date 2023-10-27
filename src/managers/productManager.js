@@ -85,11 +85,9 @@ class ProductManager {
     }
 
     //verificamos que no venga el id entre los datos a actualizar
-    console.log(data);
     if (data.id != null || data.id != undefined) {
       delete data.id;
     }
-    console.log(data);
     //buscar el producto por index, si no existe devolvemos not found
     const product = this.#products.find((prod) => prod.id == id);
     if (!product) {

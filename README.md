@@ -20,7 +20,7 @@ Guarda los cambios en archivos
 Puede traer un archivo ya existente, en caso de no encontrarlo, crea uno nuevo
 El servidor se inicia por defecto en puerto 8080 local
 
-## Uso de las rutas
+## Uso de las rutas de producto
 
 ### Rutas GET
 
@@ -36,6 +36,29 @@ Si se especifica un numero de id, en este caso "2", devuelve el producto con id 
 ### Rutas POST
 
 `/api/products`
+Recibe los datos de un producto como objeto desde body y los guarda en fileStore
+Recibe un objeto con los campos {title: (String), description:(String), price: (Number), code:(String), status:(Boolean), stock: (Number), category:(String), thumbnails:(String Array)}.
+Todos los campos son obligatorios de enviar excepto status y thumbnails.
+Si no se envia o especifica status, por defecto sera true.
+Si no se envia thumbnails, por defecto sera un array vacio.
+Se recomienda enviar todos los campos
+
+## Uso de las rutas de carrito
+
+### Rutas GET
+
+`/api/products`
+Devuelve todos los productos cargados en fileStore
+
+`/api/products?limit=3`
+Si se envia "limit" como query, devuelve esa cantidad de productos o el maximo si hay menos. En este caso devuelve los primeros 3 productos
+
+`/api/products/2`
+Si se especifica un numero de id, en este caso "2", devuelve el producto con id 2 en caso de que exista en fileStore
+
+### Rutas POST
+
+`/api/carts`
 Recibe los datos de un producto como objeto desde body y los guarda en fileStore
 Recibe un objeto con los campos {title: (String), description:(String), price: (Number), code:(String), status:(Boolean), stock: (Number), category:(String), thumbnails:(String Array)}.
 Todos los campos son obligatorios de enviar excepto status y thumbnails.
