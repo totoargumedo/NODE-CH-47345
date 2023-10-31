@@ -43,6 +43,15 @@ Si no se envia o especifica status, por defecto sera true.
 Si no se envia thumbnails, por defecto sera un array vacio.
 Se recomienda enviar todos los campos
 
+`/api/products/img`
+Recibe los datos de un producto como objeto desde body y los guarda en fileStore
+Esta ruta recibe 1 archivo para imagen, lo aloja localmente en el servidor y anexa su ruta a la propiedad thumbnails.
+Recibe un objeto con los campos {title: (String), description:(String), price: (Number), code:(String), status:(Boolean), stock: (Number), category:(String), image:(File)}.
+Todos los campos son obligatorios de enviar excepto status y image.
+Si no se envia o especifica status, por defecto sera true.
+Si no se envia thumbnails, por defecto sera un array vacio, luego la ruta a la imagen subida se agrega a este array.
+Se recomienda enviar todos los campos
+
 ### Rutas PUT
 
 `/api/products/:id`

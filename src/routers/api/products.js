@@ -1,5 +1,7 @@
 import { Router } from "express";
 import { productos } from "../../controllers/products.js";
+import { productValidator } from "../../middlewares/productValidator.js";
+import { imageUploader } from "../../middlewares/multer.js";
 
 const products_router = Router();
 
@@ -32,7 +34,7 @@ products_router.get("/:id", (req, res) => {
   res.status(200).json({ success: true, response: one_product });
 });
 
-products_router.post("/", async (req, res) => {
+products_router.post("/", productValidator, async (req, res) => {
   try {
     //extraemos los datos desde el body y le damos valores default de ser necesario
     let {
@@ -44,21 +46,7 @@ products_router.post("/", async (req, res) => {
       stock,
       status,
       thumbnails,
-    } = req.body || null;
-    //chequeamos que venga status y thumbnails, sino le asignamos valor por defecto
-    if (status === null || status === undefined) {
-      status = true;
-    }
-    if (thumbnails === null || thumbnails === undefined) {
-      thumbnails = [];
-    }
-
-    //si falta algun valor obligatorio, devolvemos error
-    if (!title || !description || !price || !code || !category || !stock) {
-      return res
-        .status(400)
-        .json({ success: false, response: "Missing required fields" });
-    }
+    } = req.body;
 
     //armamos el objeto producto
     const product = {
@@ -84,6 +72,52 @@ products_router.post("/", async (req, res) => {
     return res.status(500).json({ success: false, response: error });
   }
 });
+
+products_router.post(
+  "/img",
+  imageUploader.single("image"),
+  productValidator,
+  async (req, res) => {
+    try {
+      //extraemos los datos desde el body y le damos valores default de ser necesario
+      let {
+        title,
+        description,
+        price,
+        code,
+        category,
+        stock,
+        status,
+        thumbnails,
+      } = req.body;
+
+      //agregamos las rutas de las imagenes a thumbnails
+      thumbnails.push(req.file.path);
+      //armamos el objeto producto
+      const product = {
+        title,
+        description,
+        code,
+        price: parseFloat(price),
+        status,
+        stock: parseInt(stock),
+        category,
+        thumbnails,
+      };
+
+      //guardamos
+      const new_product = await productos.addProduct(product);
+      //Si la respuesta del manager no es un objeto, devuelve el mensaje de error
+      if (typeof new_product != "object") {
+        return res.status(400).json({ success: false, response: new_product });
+      }
+
+      return res.status(201).json({ success: true, response: new_product });
+    } catch (error) {
+      return res.status(500).json({ success: false, response: error });
+    }
+  }
+);
 
 products_router.put("/:id", async (req, res) => {
   try {
