@@ -1,13 +1,13 @@
 import { Router } from "express";
-import { productos } from "../../controllers/products.js";
+import { productos } from "../../db/products.js";
 import { productValidator } from "../../middlewares/productValidator.js";
 import { imageUploader } from "../../middlewares/multer.js";
 
-const products_router = Router();
+const productsRouter = Router();
 
 //endpoints productos
 
-products_router.get("/", (req, res) => {
+productsRouter.get("/", (req, res) => {
   //limite y productos
   const limit = req.query.limit;
   const all_products = productos.getProducts();
@@ -28,13 +28,13 @@ products_router.get("/", (req, res) => {
   res.status(200).json({ success: true, response: all_products });
 });
 
-products_router.get("/:id", (req, res) => {
+productsRouter.get("/:id", (req, res) => {
   const id = req.params.id;
   const one_product = productos.getProductById(id);
   res.status(200).json({ success: true, response: one_product });
 });
 
-products_router.post("/", productValidator, async (req, res) => {
+productsRouter.post("/", productValidator, async (req, res) => {
   try {
     //extraemos los datos desde el body y le damos valores default de ser necesario
     let {
@@ -73,7 +73,7 @@ products_router.post("/", productValidator, async (req, res) => {
   }
 });
 
-products_router.post(
+productsRouter.post(
   "/img",
   imageUploader.single("image"),
   productValidator,
@@ -119,7 +119,7 @@ products_router.post(
   }
 );
 
-products_router.put("/:id", async (req, res) => {
+productsRouter.put("/:id", async (req, res) => {
   try {
     //Nos aseguramos que venga informacion para actualizar
     const data = req.body;
@@ -144,7 +144,7 @@ products_router.put("/:id", async (req, res) => {
   }
 });
 
-products_router.delete("/:id", async (req, res) => {
+productsRouter.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -161,4 +161,4 @@ products_router.delete("/:id", async (req, res) => {
   }
 });
 
-export default products_router;
+export default productsRouter;

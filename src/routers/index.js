@@ -1,14 +1,14 @@
 import { Router } from "express";
-import api_router from "./api/api.js";
+import apiRouter from "./api/api.js";
 
-const index_router = Router();
+const indexRouter = Router();
 
 //routers
-index_router.use("/api", api_router);
+indexRouter.use("/api", apiRouter);
 
 //endpoints raiz
 
-index_router.get("/", (req, res) => {
+indexRouter.get("/", (req, res) => {
   res.send(
     `<div style="height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;">
     <h1>WELCOME STRANGER</h1>
@@ -18,4 +18,4 @@ index_router.get("/", (req, res) => {
   );
 });
 
-export default index_router;
+export default indexRouter;

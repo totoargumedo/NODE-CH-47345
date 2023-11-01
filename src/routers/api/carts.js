@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { carritos } from "../../controllers/carts.js";
+import { carritos } from "../../db/carts.js";
 
-const carts_router = Router();
+const cartsRouter = Router();
 
 //endpoints productos
-carts_router.post("/", async (req, res) => {
+cartsRouter.post("/", async (req, res) => {
   try {
     const cart = await carritos.createCart();
     res.status(201).json({ success: true, response: cart });
@@ -13,12 +13,12 @@ carts_router.post("/", async (req, res) => {
   }
 });
 
-carts_router.get("/", (req, res) => {
+cartsRouter.get("/", (req, res) => {
   const cart = carritos.getCarts();
   return res.status(200).json({ success: true, response: cart });
 });
 
-carts_router.get("/:cid", (req, res) => {
+cartsRouter.get("/:cid", (req, res) => {
   const { cid } = req.params;
   const cart = carritos.getCartById(cid);
   if (typeof cart != "object") {
@@ -27,7 +27,7 @@ carts_router.get("/:cid", (req, res) => {
   return res.status(200).json({ success: true, response: cart });
 });
 
-carts_router.post("/:cid/product/:pid", async (req, res) => {
+cartsRouter.post("/:cid/product/:pid", async (req, res) => {
   try {
     const { cid, pid } = req.params;
     const quantity = parseInt(req.query.quantity) || 1;
@@ -41,7 +41,7 @@ carts_router.post("/:cid/product/:pid", async (req, res) => {
   }
 });
 
-carts_router.delete("/:cid/product/:pid", async (req, res) => {
+cartsRouter.delete("/:cid/product/:pid", async (req, res) => {
   try {
     const { cid, pid } = req.params;
     const quantity = parseInt(req.query.quantity) || 0;
@@ -55,7 +55,7 @@ carts_router.delete("/:cid/product/:pid", async (req, res) => {
   }
 });
 
-carts_router.delete("/:cid", async (req, res) => {
+cartsRouter.delete("/:cid", async (req, res) => {
   try {
     const { cid } = req.params;
     const cart = await carritos.deleteCart(cid);
@@ -68,4 +68,4 @@ carts_router.delete("/:cid", async (req, res) => {
   }
 });
 
-export default carts_router;
+export default cartsRouter;

@@ -66,24 +66,24 @@ class CartManager {
       return "Missing info in product to add";
     }
     //buscar el carrito por index, si no existe devolvemos not found
-    const cart_index = this.#carts.findIndex((cart) => cart.id == cid);
-    if (cart_index === -1) {
+    const cartIndex = this.#carts.findIndex((cart) => cart.id == cid);
+    if (cartIndex === -1) {
       return "Cart not found";
     }
 
     //buscamos si el producto existe ya en el array, si no esta lo agregamos, si ya existe, sumamos la cantidad
-    const product_index = this.#carts[cart_index].products.findIndex(
+    const productIndex = this.#carts[cartIndex].products.findIndex(
       (prod) => prod.pid == product.pid
     );
-    if (product_index === -1) {
-      this.#carts[cart_index].products.push(product);
+    if (productIndex === -1) {
+      this.#carts[cartIndex].products.push(product);
       await this.write();
-      return this.#carts[cart_index];
+      return this.#carts[cartIndex];
     } else {
-      this.#carts[cart_index].products[product_index].quantity +=
+      this.#carts[cartIndex].products[productIndex].quantity +=
         product.quantity;
       await this.write();
-      return this.#carts[cart_index];
+      return this.#carts[cartIndex];
     }
   }
 
@@ -93,28 +93,28 @@ class CartManager {
       return "Missing info in product to delete";
     }
     //buscar el carrito por index, si no existe devolvemos not found
-    const cart_index = this.#carts.findIndex((cart) => cart.id == cid);
-    if (cart_index === -1) {
+    const cartIndex = this.#carts.findIndex((cart) => cart.id == cid);
+    if (cartIndex === -1) {
       return "Cart not found";
     }
 
     //buscamos si el producto existe ya en el array, si no esta devolvemos not found, si ya existe, sumamos la cantidad
-    const product_index = this.#carts[cart_index].products.findIndex(
+    const productIndex = this.#carts[cartIndex].products.findIndex(
       (prod) => prod.pid == product.pid
     );
-    if (product_index === -1) {
+    if (productIndex === -1) {
       return "Product not found in cart";
     } else {
       //si viene quantity dentro de producto, descontamos esa cantidad, caso contrario o eliminamos
       if (!product.quantity) {
-        this.#carts[cart_index].products.splice(product_index, 1);
+        this.#carts[cartIndex].products.splice(productIndex, 1);
         await this.write();
-        return this.#carts[cart_index];
+        return this.#carts[cartIndex];
       } else {
-        this.#carts[cart_index].products[product_index].quantity -=
+        this.#carts[cartIndex].products[productIndex].quantity -=
           product.quantity;
         await this.write();
-        return this.#carts[cart_index];
+        return this.#carts[cartIndex];
       }
     }
   }

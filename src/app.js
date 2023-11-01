@@ -1,5 +1,5 @@
 import express from "express";
-import index_router from "./routers/index.js";
+import indexRouter from "./routers/index.js";
 import { __dirname } from "./utils.js";
 
 //server
@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "public"));
 
 //routers
-app.use("/", index_router);
+app.use("/", indexRouter);
 
 //inicializacion server
 
