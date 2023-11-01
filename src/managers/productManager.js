@@ -16,7 +16,11 @@ class ProductManager {
         const data = await fs.promises.readFile(this.path, "utf-8");
         this.#products = JSON.parse(data);
         //actualizamos id
-        this.#id = this.#products[this.#products.length - 1].id;
+        this.#id =
+          this.#products.length != 0
+            ? this.#products[this.#products.length - 1].id
+            : 0;
+
         console.log(`Archivo ${this.path} correctamente cargado`);
         return;
       } else await this.write();
@@ -40,23 +44,29 @@ class ProductManager {
     if (
       !data.title ||
       !data.description ||
-      !data.price ||
       !data.code ||
-      !data.thumbnail ||
-      !data.stock
+      !data.price ||
+      !data.stock ||
+      !data.category
     ) {
-      return "Faltan campos";
+      return "Fields missing";
     }
     const codeCheck = this.#products.some((prod) => prod.code === data.code);
     if (codeCheck) {
-      return "El codigo de producto ya existe";
+      return "Invalid or repetead code";
     }
+    if (!data.status === null || data.status === undefined) {
+      data.status = true;
+    }
+    if (!data.thumbnails === null || data.thumbnails === undefined) {
+      data.thumbnails = [];
+    }
+
     this.#id++;
-    const product = { id: this.#id, ...product };
+    const product = { id: this.#id, ...data };
     this.#products.push(product);
     await this.write();
-    return;
-    product.id;
+    return product;
   }
 
   getProducts() {
@@ -70,10 +80,14 @@ class ProductManager {
 
   async updateProduct(id, data) {
     //verificamos que venga informacion para actualizar
-    if (!data) {
+    if (Object.keys(data).length === 0) {
       return "Nothing to update, fields missing";
     }
 
+    //verificamos que no venga el id entre los datos a actualizar
+    if (data.id != null || data.id != undefined) {
+      delete data.id;
+    }
     //buscar el producto por index, si no existe devolvemos not found
     const product = this.#products.find((prod) => prod.id == id);
     if (!product) {
@@ -83,9 +97,7 @@ class ProductManager {
     //actualizamos producto con la informacion dada
     try {
       Object.keys(data).forEach((item) => {
-        if (product[item]) {
-          product[item] = data[item];
-        }
+        product[item] = data[item];
       });
       await this.write();
       return product;
@@ -104,7 +116,7 @@ class ProductManager {
 
     //borramos producto con el id dado
     try {
-      this.#products.slice(this.#products[index], 1);
+      this.#products.splice(index, 1);
       await this.write();
       return "Product deleted";
     } catch (error) {

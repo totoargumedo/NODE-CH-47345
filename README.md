@@ -1,9 +1,11 @@
 # NODE-CH-47345
 
-# Desafio 3
+# Desafio 4
 
 Se crea clase manager para productos
 Se crea servidor http con rutas get
+Se crea sistema de router para productos y carritos
+Se crean rutas GET, POST, PUT y DELETE
 
 ## Iniciar el server
 
@@ -18,16 +20,93 @@ Guarda los cambios en archivos
 Puede traer un archivo ya existente, en caso de no encontrarlo, crea uno nuevo
 El servidor se inicia por defecto en puerto 8080 local
 
-## Uso de las rutas
+## Uso de las rutas de producto
 
-``/products``
-Devuelve todos los productos cargados en el archivo
+### Rutas GET
 
-``/products?limit=3``
+`/api/products`
+Devuelve todos los productos cargados en fileStore
+
+`/api/products?limit=3`
 Si se envia "limit" como query, devuelve esa cantidad de productos o el maximo si hay menos. En este caso devuelve los primeros 3 productos
 
-``/products/2``
-Si se especifica un numero de id, en este caso "2", devuelve el producto con id 2 en caso de que esxista
+`/api/products/2`
+Si se especifica un numero de id, en este caso "2", devuelve el producto con id 2 en caso de que exista en fileStore
+
+### Rutas POST
+
+`/api/products`
+Recibe los datos de un producto como objeto desde body y los guarda en fileStore
+Recibe un objeto con los campos {title: (String), description:(String), price: (Number), code:(String), status:(Boolean), stock: (Number), category:(String), thumbnails:(String Array)}.
+Todos los campos son obligatorios de enviar excepto status y thumbnails.
+Si no se envia o especifica status, por defecto sera true.
+Si no se envia thumbnails, por defecto sera un array vacio.
+Se recomienda enviar todos los campos
+
+`/api/products/img`
+Recibe los datos de un producto como objeto desde body y los guarda en fileStore
+Esta ruta recibe 1 archivo para imagen, lo aloja localmente en el servidor y anexa su ruta a la propiedad thumbnails.
+Recibe un objeto con los campos {title: (String), description:(String), price: (Number), code:(String), status:(Boolean), stock: (Number), category:(String), image:(File)}.
+Todos los campos son obligatorios de enviar excepto status y image.
+Si no se envia o especifica status, por defecto sera true.
+Si no se envia thumbnails, por defecto sera un array vacio, luego la ruta a la imagen subida se agrega a este array.
+Se recomienda enviar todos los campos
+
+### Rutas PUT
+
+`/api/products/:id`
+`/api/products/1`
+Recibe los datos de un producto como objeto desde body para actualizar los campos del producto.
+Recibe un objeto con los campos {title: (String), description:(String), price: (Number), code:(String), status:(Boolean), stock: (Number), category:(String), thumbnails:(String Array)}, actualizara solo los campos que reciba con los valores nuevos.
+El id del producto no cambiara.
+
+### Rutas DELETE
+
+`/api/products/:id`
+`/api/products/1`
+Elimina el producto con el id enviado de la DB en fileStore.
+
+## Uso de las rutas de carrito
+
+### Rutas GET
+
+`/api/products`
+Devuelve todos los carritos cargados en fileStore
+
+`/api/products?limit=3`
+Si se envia "limit" como query, devuelve esa cantidad de carritos o el maximo si hay menos. En este caso devuelve los primeros 3 carritos
+
+`/api/products/2`
+Si se especifica un numero de id, en este caso "2", devuelve el carrito con id 2 en caso de que exista en fileStore
+
+### Rutas POST
+
+`/api/carts`
+Crea un carrito nuevo y le asigna un id.
+Devuelve el carrito recien creado.
+
+`/api/carts/:cid/product/:pid`
+`/api/carts/:cid/product/:pid?quantity=`
+`/api/carts/2/product/1`
+`/api/carts/2/product/1?quantity=1`
+Recibe por params el id de un carrito y un producto. Agrega ese producto a lista de productos del carrito.
+Agrega dentro de la lista el producto como objeto con los siguientes campos {pid: (Number), quantity: (Number)}.
+Por defecto quantity es 1, si se envia por query otra cantidad, agregara esa cantidad.
+Si el producto ya existe en la lista, la API sumara esa cantidad a quantity de ese producto.
+
+### Rutas DELETE
+
+``/api/carts/:cid`
+`/api/carts/2`
+Recibe por params el id de un carrito y lo elimina por completo.
+
+``/api/carts/:cid/product/:pid`
+`/api/carts/2/product/1`
+Recibe por params el id de un carrito y un producto. Quita ese producto de la lista de productos del carrito.
+
+`/api/carts/:cid/product/:pid?quantity=`
+`/api/carts/2/product/1?quantity=1`
+Si se indica por query quantity, recibe por params el id de un carrito y un producto. Resta la cantidad indicada a quantity a ese producto indicado por pid de la lista de productos del carrito.
 
 ## Uso del manejador de archivos
 
