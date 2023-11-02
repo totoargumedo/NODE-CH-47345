@@ -69,8 +69,12 @@ class ProductManager {
     return product;
   }
 
-  getProducts() {
-    return this.#products;
+  getProducts(limit) {
+    if (!limit) {
+      return this.#products;
+    } else {
+      return this.#products.slice(0, parseInt(limit));
+    }
   }
 
   getProductById(id) {
