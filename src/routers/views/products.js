@@ -3,6 +3,15 @@ import { productos } from "../../db/products.js";
 
 const productsRouter = Router();
 
+//realtimeproducts
+productsRouter.get("/realtimeproducts", async (req, res) => {
+  try {
+    const products = await productos.getProducts().reverse();
+    res.render("realtime", { title: "Hutt Commerce", products: products });
+  } catch (error) {
+    res.status(500).json({ success: false, response: error });
+  }
+});
 //products
 productsRouter.get("/", async (req, res) => {
   try {

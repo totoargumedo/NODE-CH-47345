@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //estaticos
-app.use(express.static(__dirname + "public"));
+app.use(express.static(__dirname + "/public"));
 
 //views engine
 app.engine("handlebars", handlebars.engine());
@@ -25,7 +25,6 @@ app.use("/", indexRouter);
 
 //inicializacion server
 
-const httpServer = app.listen(PORT, () => {
+export const httpServer = app.listen(PORT, () => {
   console.log(`Server runnning on port ${PORT}`);
 });
-console.log(__dirname);

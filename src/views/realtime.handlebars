@@ -1,0 +1,83 @@
+<div
+  class="container-fluid d-flex flex-column justify-content-center align-items-center p-5 gap-3"
+  style="min-height: 100vh;"
+>
+
+{{!-- formulario de carga --}}
+<form action="" class="bg-dark p-5 rounded"
+  data-bs-theme="dark">
+  <legend class="text-secondary">Carga de productos nuevos</legend>
+  <div class="input-group mb-3">
+    <span class="input-group-text" id="basic-addon1">@</span>
+    <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+  </div>
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
+    <span class="input-group-text" id="basic-addon2">@example.com</span>
+  </div>
+  <div class="mb-3">
+    <label for="basic-url" class="form-label">Your vanity URL</label>
+    <div class="input-group">
+      <span class="input-group-text" id="basic-addon3">https://example.com/users/</span>
+      <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3 basic-addon4">
+    </div>
+    <div class="form-text" id="basic-addon4">Example help text goes outside the input group.</div>
+  </div>
+
+  <div class="input-group mb-3">
+    <span class="input-group-text">$</span>
+    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+    <span class="input-group-text">.00</span>
+  </div>
+
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="Username" aria-label="Username">
+    <span class="input-group-text">@</span>
+    <input type="text" class="form-control" placeholder="Server" aria-label="Server">
+  </div>
+
+  <div class="input-group">
+    <span class="input-group-text">With textarea</span>
+    <textarea class="form-control" aria-label="With textarea"></textarea>
+  </div>
+</form>
+
+{{!-- tabla de productos --}}
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Miniatura</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Descripción</th>
+        <th scope="col">Código</th>
+        <th scope="col">Precio</th>
+        <th scope="col">Status</th>
+        <th scope="col">Categoría</th>
+        <th scope="col">Stock</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each products}}
+        <tr>
+          <th scope="row">{{this.id}}</th>
+          <td><img
+              class="rounded object-fit-cover"
+              src="{{this.thumbnails}}"
+              alt="{{this.title}}"
+              style="height: 50px;width:50px;"
+            /></td>
+          <td>{{this.title}}</td>
+          <td>{{this.description}}</td>
+          <td>{{this.code}}</td>
+          <td class="text-primary"><strong>$ {{this.price}}</strong></td>
+          <td class="{{#if this.status}}text-success{{else}}text-danger{{/if}}">{{this.status}}</td>
+          <td>{{this.category}}</td>
+          <td><strong>{{this.stock}}</strong></td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/realtime.js"></script>
