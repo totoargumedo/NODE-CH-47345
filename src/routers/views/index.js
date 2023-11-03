@@ -4,6 +4,8 @@ import productsRouter from "./products.js";
 
 const viewsRouter = Router();
 
+//vistas
+viewsRouter.use("/products", productsRouter);
 //index page
 viewsRouter.get("/", async (req, res) => {
   try {
@@ -15,8 +17,5 @@ viewsRouter.get("/", async (req, res) => {
     res.status(500).json({ success: false, response: error });
   }
 });
-
-//vistas
-viewsRouter.use("/products", productsRouter);
 
 export default viewsRouter;
