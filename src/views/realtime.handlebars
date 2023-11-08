@@ -3,46 +3,102 @@
   style="min-height: 100vh;"
 >
 
-{{!-- formulario de carga --}}
-<form action="" class="bg-dark p-5 rounded"
-  data-bs-theme="dark">
-  <legend class="text-secondary">Carga de productos nuevos</legend>
-  <div class="input-group mb-3">
-    <span class="input-group-text" id="basic-addon1">@</span>
-    <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-  </div>
-  <div class="input-group mb-3">
-    <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
-    <span class="input-group-text" id="basic-addon2">@example.com</span>
-  </div>
-  <div class="mb-3">
-    <label for="basic-url" class="form-label">Your vanity URL</label>
-    <div class="input-group">
-      <span class="input-group-text" id="basic-addon3">https://example.com/users/</span>
-      <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3 basic-addon4">
+  {{! formulario de carga }}
+  <form
+    action=""
+    class="bg-dark p-5 rounded"
+    data-bs-theme="dark"
+    id="productForm"
+  >
+    <legend class="text-secondary">Carga de productos nuevos</legend>
+    <div class="input-group mb-3">
+      <input
+        type="text"
+        class="form-control"
+        id="title"
+        placeholder="Nombre producto"
+        aria-label="Nombre producto"
+      />
     </div>
-    <div class="form-text" id="basic-addon4">Example help text goes outside the input group.</div>
-  </div>
+    <div class="input-group mb-3">
+      <input
+        type="text"
+        class="form-control"
+        id="description"
+        placeholder="Descripción"
+        aria-label="Descripcion producto"
+      />
+    </div>
+    <div class="input-group mb-3">
+      <input
+        type="text"
+        class="form-control"
+        id="code"
+        placeholder="Código"
+        aria-label="Recipient's username"
+        aria-describedby="Codigo producto"
+      />
+      <span class="input-group-text" id="Codigo producto"></span>
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text">$</span>
+      <input
+        type="number"
+        class="form-control"
+        id="price"
+        aria-label="Precio producto"
+        placeholder="Precio"
+      />
+    </div>
+    <div class="input-group mb-3">
+      <input
+        type="number"
+        class="form-control"
+        id="stock"
+        aria-label="Stock producto"
+        placeholder="Stock"
+      />
+      <span class="input-group-text">unidades</span>
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text">Categoría</span>
+      <select class="form-select" id="category" aria-label="Categoria producto">
+        <option selected>Selecciona la catergoria a la que pertenece este
+          producto</option>
+        <option value="Jedi">Jedi</option>
+        <option value="Sith">Sith</option>
+        <option value="Independent">Independent</option>
+        <option value="Force sensitive">Force sensitive</option>
+      </select>
+    </div>
+    <div class="mb-3" id="productImages">
+      <label for="thumbnails" class="form-label text-secondary">Imagenes</label>
+      <div class="form-text" id="basic-addon4">Puedes ingresar mas imagenes
+        presionando el +</div>
+      <div class="input-group">
+        <input
+          type="text"
+          class="form-control"
+          id="thumbnails1"
+          id="thumbnails"
+        />
+        <button
+          type="button"
+          class="btn btn-success"
+          onclick="addImageInput()"
+        >+</button>
+      </div>
+    </div>
+    <input
+      type="submit"
+      class="btn btn-secondary"
+      name="productSubmit"
+      id="productSubmit"
+      value="Cargar"
+    />
+  </form>
 
-  <div class="input-group mb-3">
-    <span class="input-group-text">$</span>
-    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-    <span class="input-group-text">.00</span>
-  </div>
-
-  <div class="input-group mb-3">
-    <input type="text" class="form-control" placeholder="Username" aria-label="Username">
-    <span class="input-group-text">@</span>
-    <input type="text" class="form-control" placeholder="Server" aria-label="Server">
-  </div>
-
-  <div class="input-group">
-    <span class="input-group-text">With textarea</span>
-    <textarea class="form-control" aria-label="With textarea"></textarea>
-  </div>
-</form>
-
-{{!-- tabla de productos --}}
+  {{! tabla de productos }}
   <table class="table">
     <thead>
       <tr>
@@ -58,26 +114,9 @@
       </tr>
     </thead>
     <tbody>
-      {{#each products}}
-        <tr>
-          <th scope="row">{{this.id}}</th>
-          <td><img
-              class="rounded object-fit-cover"
-              src="{{this.thumbnails}}"
-              alt="{{this.title}}"
-              style="height: 50px;width:50px;"
-            /></td>
-          <td>{{this.title}}</td>
-          <td>{{this.description}}</td>
-          <td>{{this.code}}</td>
-          <td class="text-primary"><strong>$ {{this.price}}</strong></td>
-          <td class="{{#if this.status}}text-success{{else}}text-danger{{/if}}">{{this.status}}</td>
-          <td>{{this.category}}</td>
-          <td><strong>{{this.stock}}</strong></td>
-        </tr>
-      {{/each}}
+
     </tbody>
   </table>
 </div>
 <script src="/socket.io/socket.io.js" charset="utf-8"></script>
-<script src="/js/realtime.js" charset="utf-8></script>
+<script src="/js/realtime.js" charset="utf-8"></script>

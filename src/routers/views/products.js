@@ -6,8 +6,7 @@ const productsRouter = Router();
 //realtimeproducts
 productsRouter.get("/realtimeproducts", async (req, res) => {
   try {
-    const products = await productos.getProducts().reverse();
-    res.render("realtime", { title: "Hutt Commerce", products: products });
+    res.render("realtime", { title: "Hutt Commerce" });
   } catch (error) {
     res.status(500).json({ success: false, response: error });
   }
