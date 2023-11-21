@@ -1,21 +1,13 @@
 import { Router } from "express";
 import apiRouter from "./api/api.js";
+import viewsRouter from "./views/index.js";
 
 const indexRouter = Router();
 
 //routers
 indexRouter.use("/api", apiRouter);
+indexRouter.use("/", viewsRouter);
 
-//endpoints raiz
-
-indexRouter.get("/", (req, res) => {
-  res.send(
-    `<div style="height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;">
-    <h1>WELCOME STRANGER</h1>
-    <h2>este es un div centrado</h2>
-    <h3>&#128517;</h3>
-    </div>`
-  );
-});
+//views
 
 export default indexRouter;
