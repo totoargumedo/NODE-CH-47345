@@ -1,11 +1,13 @@
 # NODE-CH-47345
 
-# Desafio 4
+# Desafio 5
 
 Se crea clase manager para productos
 Se crea servidor http con rutas get
 Se crea sistema de router para productos y carritos
 Se crean rutas GET, POST, PUT y DELETE
+Se crean vistas utilizando handlebars
+Se implemento websocket para carga en tiempo real
 
 ## Iniciar el server
 
@@ -19,6 +21,29 @@ El proyecto utiliza Javascript modules
 Guarda los cambios en archivos
 Puede traer un archivo ya existente, en caso de no encontrarlo, crea uno nuevo
 El servidor se inicia por defecto en puerto 8080 local
+
+## Vistas
+
+### Home
+
+`/`
+La ruta de home presenta una pequeña galeria de algunos productos
+
+### Productos
+
+`/products`
+Muestra la lista de productos cargados en memoria
+
+### Carrito
+
+`/cart`
+Sin terminar
+
+### Carga de productos en tiempo real
+
+`/realtimeproducts`
+Presenta un formulario de carga para productos nuevos, la lista de productos inferior se actualizara automaticamente con el ultimo producto cargado.
+El formulario permite la carga de mas de una imagen mediante URL.
 
 ## Uso de las rutas de producto
 

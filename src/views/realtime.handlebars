@@ -1,0 +1,122 @@
+<div
+  class="container-fluid d-flex flex-column justify-content-center align-items-center p-5 gap-3"
+  style="min-height: 100vh;"
+>
+
+  {{! formulario de carga }}
+  <form
+    action=""
+    class="bg-dark p-5 rounded"
+    data-bs-theme="dark"
+    id="productForm"
+  >
+    <legend class="text-secondary">Carga de productos nuevos</legend>
+    <div class="input-group mb-3">
+      <input
+        type="text"
+        class="form-control"
+        id="title"
+        placeholder="Nombre producto"
+        aria-label="Nombre producto"
+      />
+    </div>
+    <div class="input-group mb-3">
+      <input
+        type="text"
+        class="form-control"
+        id="description"
+        placeholder="Descripción"
+        aria-label="Descripcion producto"
+      />
+    </div>
+    <div class="input-group mb-3">
+      <input
+        type="text"
+        class="form-control"
+        id="code"
+        placeholder="Código"
+        aria-label="Recipient's username"
+        aria-describedby="Codigo producto"
+      />
+      <span class="input-group-text" id="Codigo producto"></span>
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text">$</span>
+      <input
+        type="number"
+        class="form-control"
+        id="price"
+        aria-label="Precio producto"
+        placeholder="Precio"
+      />
+    </div>
+    <div class="input-group mb-3">
+      <input
+        type="number"
+        class="form-control"
+        id="stock"
+        aria-label="Stock producto"
+        placeholder="Stock"
+      />
+      <span class="input-group-text">unidades</span>
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text">Categoría</span>
+      <select class="form-select" id="category" aria-label="Categoria producto">
+        <option selected>Selecciona la catergoria a la que pertenece este
+          producto</option>
+        <option value="Jedi">Jedi</option>
+        <option value="Sith">Sith</option>
+        <option value="Independent">Independent</option>
+        <option value="Force sensitive">Force sensitive</option>
+      </select>
+    </div>
+    <div class="mb-3" id="productImages">
+      <label for="thumbnails" class="form-label text-secondary">Imagenes</label>
+      <div class="form-text" id="basic-addon4">Puedes ingresar mas imagenes
+        presionando el +</div>
+      <div class="input-group">
+        <input
+          type="text"
+          class="form-control"
+          id="thumbnails1"
+          id="thumbnails"
+        />
+        <button
+          type="button"
+          class="btn btn-success"
+          onclick="addImageInput()"
+        >+</button>
+      </div>
+    </div>
+    <input
+      type="submit"
+      class="btn btn-secondary"
+      name="productSubmit"
+      id="productSubmit"
+      value="Cargar"
+    />
+  </form>
+
+  {{! tabla de productos }}
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Miniatura</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Descripción</th>
+        <th scope="col">Código</th>
+        <th scope="col">Precio</th>
+        <th scope="col">Status</th>
+        <th scope="col">Categoría</th>
+        <th scope="col">Stock</th>
+      </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+  </table>
+</div>
+<script src="/socket.io/socket.io.js" charset="utf-8"></script>
+<script src="/js/realtime.js" charset="utf-8"></script>
