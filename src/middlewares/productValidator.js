@@ -1,5 +1,4 @@
 export const productValidator = (req, res, next) => {
-  console.log(req.body);
   //si falta algun valor obligatorio, devolvemos error
   if (
     !req.body.title ||

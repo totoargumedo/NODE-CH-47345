@@ -2,12 +2,11 @@
   "name": "desafio2023",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/app.js",
   "type": "module",
   "scripts": {
-    "start": "node ./src/app.js",
-    "dev": "nodemon ./src/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node .",
+    "dev": "nodemon ."
   },
   "repository": {
     "type": "git",
@@ -21,8 +20,10 @@
   },
   "homepage": "https://github.com/totoargumedo/NODE-CH-47345#readme",
   "dependencies": {
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-handlebars": "^7.1.2",
+    "mongoose": "^8.0.1",
     "multer": "^1.4.5-lts.1",
     "socket.io": "^4.7.2"
   }

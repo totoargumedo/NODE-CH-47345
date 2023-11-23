@@ -70,6 +70,8 @@ productForm.addEventListener("submit", async (e) => {
     },
   })
     .then((res) => {
+      productForm.reset();
+      title.focus();
       socket.emit("newProduct");
     })
     .catch((error) => console.log(error));

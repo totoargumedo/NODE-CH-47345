@@ -38,7 +38,7 @@ class CartManager {
     }
   }
 
-  async createCart() {
+  async create() {
     this.#id++;
     const cart = { id: this.#id, products: [] };
     this.#carts.push(cart);
@@ -46,16 +46,16 @@ class CartManager {
     return cart;
   }
 
-  getCarts() {
+  getAll() {
     return this.#carts;
   }
 
-  getCartById(cid) {
+  getById(cid) {
     const cart = this.#carts.find((cart) => cart.id == cid);
-    return cart ? cart : "Not found";
+    return cart ? cart : null;
   }
 
-  async addProductsToCart(cid, product) {
+  async addProductById(cid, product) {
     //verificamos que venga informacion para actualizar
     if (Object.keys(product).length === 0) {
       return "Nothing to update, products missing";
@@ -87,7 +87,7 @@ class CartManager {
     }
   }
 
-  async deleteProductFromCart(cid, product) {
+  async removeProductById(cid, product) {
     //verificamos que no venga el id entre los datos a actualizar
     if (!product.pid) {
       return "Missing info in product to delete";
@@ -119,7 +119,7 @@ class CartManager {
     }
   }
 
-  async deleteCart(cid) {
+  async remove(cid) {
     //buscar el producto por index, si no existe devolvemos not found
     const index = this.#carts.findIndex((cart) => cart.id == cid);
     if (index === -1) {
@@ -130,7 +130,7 @@ class CartManager {
     try {
       this.#carts.splice(index, 1);
       await this.write();
-      return "Cart deleted";
+      return cid;
     } catch (error) {
       console.log(`Error al eliminar el carrito con id:${id}
                    Error. ${error}`);

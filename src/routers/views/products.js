@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { productos } from "../../db/products.js";
+import * as service from "../../services/product.services.js";
 
 const productsRouter = Router();
 
@@ -12,31 +12,32 @@ productsRouter.get("/realtimeproducts", async (req, res) => {
   }
 });
 //products
-productsRouter.get("/", async (req, res) => {
+productsRouter.get("/", async (req, res, next) => {
   try {
-    const products = await productos.getProducts();
+    const products = await service.getAll();
+    const toRender = [...products];
     //separo el primer producto para el destacado
     res.render("products", {
       title: "Hutt Commerce",
-      active: products[0],
-      products: products.slice(1, products.length - 1),
+      active: toRender[0],
+      products: toRender.slice(1, toRender.length - 1),
     });
   } catch (error) {
-    res.status(500).json({ success: false, response: error });
+    next(error);
   }
 });
 
 //product id
-productsRouter.get("/:id", async (req, res) => {
+productsRouter.get("/:id", async (req, res, next) => {
   try {
-    const product = await productos.getProductById(req.params.id);
+    const product = await service.getById(req.params.id);
     //separo el primer producto para el destacado
     res.render("product", {
       title: "Hutt Commerce",
       product: product,
     });
   } catch (error) {
-    res.status(500).json({ success: false, response: error });
+    next(error);
   }
 });
 

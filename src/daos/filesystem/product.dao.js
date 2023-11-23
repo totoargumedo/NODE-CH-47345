@@ -40,7 +40,7 @@ class ProductManager {
     }
   }
 
-  async addProduct(data) {
+  async create(data) {
     if (
       !data.title ||
       !data.description ||
@@ -49,11 +49,11 @@ class ProductManager {
       !data.stock ||
       !data.category
     ) {
-      return "Fields missing";
+      return false;
     }
     const codeCheck = this.#products.some((prod) => prod.code === data.code);
     if (codeCheck) {
-      return "Invalid or repetead code";
+      return false;
     }
     if (!data.status === null || data.status === undefined) {
       data.status = true;
@@ -69,7 +69,7 @@ class ProductManager {
     return product;
   }
 
-  getProducts(limit) {
+  getAll(limit) {
     if (!limit) {
       return this.#products;
     } else {
@@ -77,12 +77,12 @@ class ProductManager {
     }
   }
 
-  getProductById(id) {
+  getById(id) {
     const product = this.#products.find((product) => product.id == id);
-    return product ? product : "Not found";
+    return product ? product : false;
   }
 
-  async updateProduct(id, data) {
+  async update(id, data) {
     //verificamos que venga informacion para actualizar
     if (Object.keys(data).length === 0) {
       return "Nothing to update, fields missing";
@@ -111,7 +111,7 @@ class ProductManager {
     }
   }
 
-  async deleteProduct(id) {
+  async remove(id) {
     //buscar el producto por index, si no existe devolvemos not found
     const index = this.#products.findIndex((prod) => prod.id == id);
     if (index === -1) {
