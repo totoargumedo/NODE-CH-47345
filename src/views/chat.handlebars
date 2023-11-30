@@ -1,0 +1,43 @@
+<div
+  class="container-fluid d-flex flex-column justify-content-center align-items-center"
+  style="min-height: 90vh;"
+>
+
+  <div class="container d-flex justify-content-center" id="chatContainer">
+    <div class="card">
+      <div
+        class="d-flex flex-row justify-content-between p-3 adiv text-white bg-dark"
+      >
+        <i class="fas fa-chevron-left"></i>
+        <span class="pb-3">Chat en vivo</span>
+        <i class="fas fa-times"></i>
+      </div>
+      <div class="bg-dark" id="messagesTable">
+
+      </div>
+
+      <form class="form-group px-3 bg-dark text-light d-flex flex-column">
+        <div class="mb-3">
+          <input
+            id="inputUser"
+            type="email"
+            class="form-control"
+            placeholder="Ingrese su mail"
+          />
+        </div>
+        <div class="mb-3">
+          <textarea
+            id="inputMessage"
+            class="form-control"
+            name="message"
+            rows="3"
+            placeholder="Escribe tu mensaje aquí"
+          ></textarea>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+<script src="/socket.io/socket.io.js" charset="utf-8"></script>
+<script src="/js/chat.js" charset="utf-8"></script>

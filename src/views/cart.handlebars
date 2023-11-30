@@ -1,0 +1,46 @@
+<div
+  class="container-fluid d-flex flex-column justify-content-center align-items-center p-5 gap-3"
+  style="min-height: 100vh;"
+>
+
+  {{! tabla de productos en carrito}}
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Nombre</th>
+        <th scope="col">Imagen</th>
+        <th scope="col">Descripción</th>
+        <th scope="col">Cantidad</th>
+        <th scope="col">Precio</th>
+        <th scope="col">Stock</th>
+        <th scope="col">Agregar</th>
+        <th scope="col">Eliminar</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each products}}
+        {{#if this.product_id.status}}
+        <tr>
+          <th>{{this.product_id.title}}</th>
+          <td>
+            <img class="rounded object-fit-cover" style="height: 50px;width:50px;"
+              {{#with this.product_id.thumbnails}}
+                  src="{{this.[0]}}"
+                {{/with }}
+              class="img-fluid rounded-start h-100 object-fit-cover"
+              alt="{{this.product_id.title}}"
+            />
+          </td>
+          <td>{{this.product_id.description}}</td>
+          <td><strong>{{this.quantity}}</strong></td>
+          <td class="text-primary"><strong>${{this.product_id.price}}</strong></td>
+          <td class="text-success"><strong>{{this.product_id.stock}}</strong></td>
+          <td><button>+</button></td>
+          <td><button>x</button></td>
+        </tr>
+        {{/if}}
+      {{/each}}
+
+    </tbody>
+  </table>
+</div>

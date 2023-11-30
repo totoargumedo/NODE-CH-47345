@@ -11,8 +11,9 @@ const schema = new Schema({
         required: true,
       },
       quantity: { type: Number, required: true },
+      _id: false,
     },
   ],
 });
 
-export default cartModel = model(collection, schema);
+export const cartModel = model(collection, schema);

@@ -1,10 +1,14 @@
-//FS CART DAO
-import CartManager from "../daos/filesystem/cart.dao.js";
+// //FS CART DAO
+// import CartManager from "../daos/filesystem/cart.dao.js";
 
-const cartsDao = new CartManager(
-  "./src/daos/filesystem/data/carts.json",
-  "carts"
-);
+// const cartsDao = new CartManager(
+//   "./src/daos/filesystem/data/carts.json",
+//   "carts"
+// );
+
+//MONGO CART DAO
+import CartDaoMongo from "../daos/mongodb/cart.dao.js";
+const cartsDao = new CartDaoMongo();
 
 //get all carts
 export const getAll = async () => {

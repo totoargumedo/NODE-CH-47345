@@ -1,11 +1,15 @@
 import { Router } from "express";
 import productsRouter from "./products.js";
 import * as service from "../../services/product.services.js";
+import cartsRouter from "./carts.js";
+import messagesRouter from "./messages.js";
 
 const viewsRouter = Router();
 
 //vistas
 viewsRouter.use("/products", productsRouter);
+viewsRouter.use("/cart", cartsRouter);
+viewsRouter.use("/chat", messagesRouter);
 //index page
 viewsRouter.get("/", async (req, res, next) => {
   try {

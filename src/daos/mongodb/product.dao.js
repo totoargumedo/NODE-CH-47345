@@ -3,7 +3,7 @@ import { productModel } from "./models/product.model.js";
 export default class ProductDaoMongo {
   async getAll(limit) {
     try {
-      const response = await productModel.find({}).limit(limit);
+      const response = await productModel.find({}).limit(limit).lean();
       return response;
     } catch (error) {
       console.log(error);
@@ -12,7 +12,7 @@ export default class ProductDaoMongo {
 
   async getById(id) {
     try {
-      const response = await productModel.findById(id);
+      const response = await productModel.findById(id).lean();
       return response;
     } catch (error) {
       console.log(error);

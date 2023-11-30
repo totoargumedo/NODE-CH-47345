@@ -5,6 +5,7 @@ import "dotenv/config";
 import { __dirname } from "./utils.js";
 import { Server } from "socket.io";
 import * as service from "./services/product.services.js";
+import * as serviceMessages from "./services/messages.service.js";
 import { initMongo } from "./daos/mongodb/connection.js";
 
 //server
@@ -41,6 +42,7 @@ socketServer.on("connection", async (socket) => {
   console.log("🟢 ¡New connection! client: " + socket.id);
 
   socketServer.emit("products", await service.getAll());
+  socketServer.emit("messages", await serviceMessages.getAll());
 
   socket.on("disconnect", () =>
     console.log("🔴 ¡User disconnect! client: " + socket.id)
@@ -48,5 +50,10 @@ socketServer.on("connection", async (socket) => {
 
   socket.on("newProduct", async () => {
     socket.emit("products", await service.getAll());
+  });
+
+  socket.on("newMessage", async (data) => {
+    await serviceMessages.create(data);
+    socket.emit("messages", await serviceMessages.getAll());
   });
 });

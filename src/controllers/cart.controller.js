@@ -15,8 +15,10 @@ export const getById = async (req, res, next) => {
   try {
     const { cid } = req.params;
     const response = await service.getById(cid);
-    if (typeof response != "object") {
-      return res.status(400).json({ success: false, response: response });
+    if (!response) {
+      return res
+        .status(400)
+        .json({ success: false, response: "Cart not found" });
     }
     return res.status(200).json({ success: true, response: response });
   } catch (error) {
@@ -42,8 +44,11 @@ export const addProductById = async (req, res) => {
     const { cid, pid } = req.params;
     const quantity = parseInt(req.query.quantity) || 1;
     const response = await service.addProductById(cid, { pid, quantity });
-    if (typeof response != "object") {
-      return res.status(400).json({ success: false, response: response });
+    if (!response) {
+      return res.status(400).json({
+        success: false,
+        response: "Cart not found or product not added",
+      });
     }
     return res.status(200).json({ success: true, response: response });
   } catch (error) {
@@ -71,8 +76,11 @@ export const remove = async (req, res) => {
   try {
     const { cid } = req.params;
     const response = await service.remove(cid);
-    if (response != "Cart deleted") {
-      return res.status(400).json({ success: false, response: response });
+    if (!response) {
+      return res.status(400).json({
+        success: false,
+        response: "Cart not found or not deleted",
+      });
     }
     return res.status(200).json({ success: true, response: response });
   } catch (error) {

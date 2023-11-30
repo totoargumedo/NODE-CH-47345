@@ -1,6 +1,6 @@
 # NODE-CH-47345
 
-# Desafio 5
+# Desafio 6 - complementario
 
 Se crea clase manager para productos
 Se crea servidor http con rutas get
@@ -8,6 +8,8 @@ Se crea sistema de router para productos y carritos
 Se crean rutas GET, POST, PUT y DELETE
 Se crean vistas utilizando handlebars
 Se implemento websocket para carga en tiempo real
+Se creo logica de capas dao/servicios/controladores/routers
+Se implemento MongoDB
 
 ## Iniciar el server
 

@@ -5,7 +5,7 @@
     <div class="card text-bg-dark">
       
       <img
-        {{#with this.thumbnails}}
+        {{#with active.thumbnails}}
           src="{{this.[0]}}"
         {{/with }}
         class="card-img"
@@ -16,7 +16,7 @@
         <h5 class="card-title">{{active.title}}</h5>
         <p class="card-text">{{active.description}}</p>
         <p class="card-text"><small>$ {{active.price}}</small></p>
-        <a href="/products/{{#if active.id}}{{active.id}}{{else}}{{active._id}}{{/if}}" class="stretched-link"></a>
+        <a href="/products/{{active._id}}" class="stretched-link"></a>
       </div>
     </div>
   {{/if}}
@@ -27,13 +27,13 @@
     {{#each products}}
       {{#if this.status}}
         <div class="card mb-3" style="max-width: 540px;">
-          <div class="row g-0">
+          <div class="row">
             <div class="col-md-4">
               <img
                 {{#with this.thumbnails}}
                   src="{{this.[0]}}"
                 {{/with }}
-                class="img-fluid rounded-start"
+                class="img-fluid rounded-start h-100 object-fit-cover"
                 alt="{{this.title}}"
               />
             </div>
@@ -43,7 +43,7 @@
                 <p class="card-text">{{this.description}}</p>
                 <p class="card-text"><small class="text-body-secondary">$
                     {{this.price}}</small></p>
-                <a href="/products/{{#if this.id}}{{this.id}}{{else}}{{this._id}}{{/if}}" class="stretched-link"></a>
+                <a href="/products/{{this._id}}" class="stretched-link"></a>
               </div>
             </div>
           </div>

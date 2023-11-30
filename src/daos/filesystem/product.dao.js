@@ -63,7 +63,7 @@ class ProductManager {
     }
 
     this.#id++;
-    const product = { id: this.#id, ...data };
+    const product = { _id: this.#id, ...data };
     this.#products.push(product);
     await this.write();
     return product;

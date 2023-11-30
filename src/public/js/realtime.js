@@ -17,7 +17,7 @@ function renderProducts(products) {
       statusColor = "danger";
     }
     newRow.innerHTML = `
-            <th scope="row">${product.id}</th>
+            <th scope="row">${product._id}</th>
             <td><img
                   class="rounded object-fit-cover"
                   src="${product.thumbnails[0]}"
