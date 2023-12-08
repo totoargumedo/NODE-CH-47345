@@ -3,13 +3,38 @@ import * as service from "../services/product.services.js";
 //get all products
 export const getAll = async (req, res, next) => {
   try {
-    let response;
-    if (req.query.limit) {
-      response = await service.getAll(req.query.limit);
-    } else {
-      response = await service.getAll();
+    const { page, limit, sort } = req.query;
+    const { title, category, status } = req.query || null;
+    let query = {};
+    if (title) {
+      query = { title: new RegExp(req.query.title, "i") };
     }
-    res.status(200).json(response);
+    if (category) {
+      query = { category: category };
+    }
+    if (status) {
+      query = { status: status };
+    }
+    const response = await service.getAll(page, limit, sort, query);
+    const next = response.hasNextPage
+      ? `/api/products?page=${response.nextPage}`
+      : null;
+    const prev = response.hasPrevPage
+      ? `/api/products?page=${response.prevPage}`
+      : null;
+    res.status(200).json({
+      status: "success",
+      payload: response.docs,
+      totalResults: response.totalDocs,
+      totalPages: response.totalPages,
+      prevPage: response.prevPage,
+      nextPage: response.nextPage,
+      page: response.page,
+      hasPrevPage: response.hasPrevPage,
+      hasNextPage: response.hasNextPage,
+      prevLink: prev,
+      nextLink: next,
+    });
   } catch (error) {
     next(error);
   }
@@ -21,8 +46,8 @@ export const getById = async (req, res, next) => {
     const { id } = req.params;
     const response = await service.getById(id);
     if (!response)
-      res.status(404).json({ success: false, response: "Product not found" });
-    else res.status(200).json({ success: true, response: response });
+      res.status(404).json({ status: "error", payload: "Product not found" });
+    else res.status(200).json({ status: "success", payload: response });
   } catch (error) {
     next(error);
   }
@@ -54,8 +79,8 @@ export const create = async (req, res, next) => {
     };
     const response = await service.create(product);
     if (!response)
-      res.status(404).json({ success: false, response: "Product not created" });
-    else res.status(201).json({ success: true, response: response });
+      res.status(404).json({ status: "error", payload: "Product not created" });
+    else res.status(201).json({ status: "success", payload: response });
   } catch (error) {
     next(error);
   }
@@ -71,7 +96,7 @@ export const update = async (req, res, next) => {
     if (Object.keys(data).length === 0) {
       return res
         .status(400)
-        .json({ success: false, response: "Nothing to update" });
+        .json({ status: "error", payload: "Nothing to update" });
     }
 
     const response = await service.update(id, data);
@@ -80,9 +105,9 @@ export const update = async (req, res, next) => {
     if (!response) {
       return res
         .status(400)
-        .json({ success: false, response: "Product not updated" });
+        .json({ status: "error", payload: "Product not updated" });
     }
-    return res.status(200).json({ success: true, response: response });
+    return res.status(200).json({ status: "success", payload: response });
   } catch (error) {
     next(error);
   }
@@ -99,12 +124,12 @@ export const remove = async (req, res, next) => {
     if (!response) {
       return res
         .status(400)
-        .json({ success: false, response: "Product not deleted" });
+        .json({ status: "error", payload: "Product not deleted" });
     }
 
     return res
       .status(200)
-      .json({ success: true, response: `Product id:${id} deleted` });
+      .json({ status: "success", payload: `Product id:${id} deleted` });
   } catch (error) {
     next(error);
   }

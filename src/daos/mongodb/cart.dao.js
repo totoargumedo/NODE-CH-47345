@@ -34,18 +34,38 @@ export default class CartDaoMongo {
 
   async addProductById(id, data) {
     try {
-      const productInCart = await cartModel.findById({
-        _id: id,
-        "products.product_id": data.id,
-      });
-      console.log(productInCart);
+      const productInCart = await cartModel.findOneAndUpdate(
+        {
+          _id: id,
+          "products.product_id": data.pid,
+        },
+        { $set: { "products.$.quantity": data.quantity } },
+        { new: true }
+      );
+
+      if (!productInCart) {
+        const response = await cartModel.findByIdAndUpdate(
+          id,
+          {
+            $push: {
+              products: { product_id: data.pid, quantity: data.quantity },
+            },
+          },
+          { new: true }
+        );
+        return response;
+      }
+      return productInCart;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async removeProductById(id, pid) {
+    try {
       const response = await cartModel.findByIdAndUpdate(
         id,
-        {
-          $push: {
-            products: { product_id: data.pid, quantity: data.quantity },
-          },
-        },
+        { $pull: { products: { product_id: { $eq: pid } } } },
         { new: true }
       );
       return response;
@@ -54,11 +74,11 @@ export default class CartDaoMongo {
     }
   }
 
-  async removeProductById(id, data) {
+  async removeAllProducts(id) {
     try {
       const response = await cartModel.findByIdAndUpdate(
         id,
-        { $pull: { products: { product_id: { $eq: data.pid } } } },
+        { $set: { products: [] } },
         { new: true }
       );
       return response;

@@ -54,10 +54,21 @@ export const addProductById = async (id, data) => {
   }
 };
 
-//add product to cart
-export const removeProductById = async (id, data) => {
+//remove product from cart
+export const removeProductById = async (id, pid) => {
   try {
-    const updatedCart = await cartsDao.removeProductById(id, data);
+    const updatedCart = await cartsDao.removeProductById(id, pid);
+    if (!updatedCart) return false;
+    else return updatedCart;
+  } catch (error) {
+    console.log("Product service error: " + error);
+  }
+};
+
+//remove all products from cart
+export const removeAllProducts = async (id) => {
+  try {
+    const updatedCart = await cartsDao.removeAllProducts(id);
     if (!updatedCart) return false;
     else return updatedCart;
   } catch (error) {

@@ -13,8 +13,8 @@ viewsRouter.use("/chat", messagesRouter);
 //index page
 viewsRouter.get("/", async (req, res, next) => {
   try {
-    const products = await service.getAll(5);
-    const toRender = [...products];
+    const products = await service.getAll(1, 5);
+    const toRender = [...products.docs];
     //coloco una propiedad temporal al primer producto para el atributo "active" en el carrousel
     toRender[0].activeImage = true;
     res.render("index", { title: "Hutt Commerce", products: toRender });

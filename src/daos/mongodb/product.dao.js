@@ -1,9 +1,22 @@
 import { productModel } from "./models/product.model.js";
 
 export default class ProductDaoMongo {
-  async getAll(limit) {
+  async getAll(page = 1, limit = 10, sort, query) {
     try {
-      const response = await productModel.find({}).limit(limit).lean();
+      if (!sort) {
+        const response = await productModel.paginate(query, {
+          page,
+          limit,
+          lean: true,
+        });
+        return response;
+      }
+      const response = await productModel.paginate(query, {
+        page,
+        limit,
+        lean: true,
+        sort: { price: sort },
+      });
       return response;
     } catch (error) {
       console.log(error);

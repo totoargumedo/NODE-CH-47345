@@ -35,8 +35,8 @@
           <td><strong>{{this.quantity}}</strong></td>
           <td class="text-primary"><strong>${{this.product_id.price}}</strong></td>
           <td class="text-success"><strong>{{this.product_id.stock}}</strong></td>
-          <td><button>+</button></td>
-          <td><button>x</button></td>
+          <td><button class="btn btn-outline-success">+</button></td>
+          <td><button class="btn btn-outline-danger" onclick="deleteFromCart(this,{{cid}},{{this.product_id._id}})" id="deleteFromCartButton">x</button></td>
         </tr>
         {{/if}}
       {{/each}}
@@ -44,3 +44,4 @@
     </tbody>
   </table>
 </div>
+<script src="/js/cart.js"></script>

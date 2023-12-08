@@ -3,17 +3,34 @@
   style="min-height: 100vh;"
 >
 
-  <div class="card text-bg-dark">
+  <div class="card text-bg-dark" style="height: 60vh;width:80vw;">
     <img
       src="{{product.thumbnails}}"
       class="card-img"
       alt="{{product.title}}"
+      style="height: 100%;width:100%;object-fit:cover;"
     />
     <div class="card-img-overlay">
       <h5 class="card-title">{{product.title}}</h5>
       <p class="card-text">{{product.description}}</p>
       <p class="card-text"><small>$ {{product.price}}</small></p>
+      <form action="" id="addToCartForm">
+        <input
+          type="number"
+          name="quantity"
+          placeholder="1"
+          max="{{product.stock}}"
+          min="1"
+        />
+        <input type="text" name="pid" value="{{product._id}}" class="d-none" />
+        <input
+          type="submit"
+          class="btn btn-outline-light"
+          value="Agrega al carrito"
+        />
+      </form>
     </div>
   </div>
 
 </div>
+<script src="/js/product.js"></script>

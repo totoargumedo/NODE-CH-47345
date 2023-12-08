@@ -14,6 +14,6 @@ cartsRouter.post("/:cid/product/:pid", controller.addProductById);
 
 cartsRouter.delete("/:cid/product/:pid", controller.removeProductById);
 
-cartsRouter.delete("/:cid", controller.remove);
+cartsRouter.delete("/:cid", controller.removeAllProducts);
 
 export default cartsRouter;

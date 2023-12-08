@@ -2,14 +2,14 @@
   class="container-fluid d-flex flex-column justify-content-center align-items-center p-5 gap-3"
 >
   {{#if active}}
-    <div class="card text-bg-dark">
-      
+    <div class="card text-bg-dark m-3" style="height: 30vh;width:30vw;">
       <img
         {{#with active.thumbnails}}
           src="{{this.[0]}}"
         {{/with }}
         class="card-img"
         alt="{{active.title}}"
+          style="height: 100%;width:100%;object-fit:cover;"
       />
        
       <div class="card-img-overlay">
@@ -24,7 +24,7 @@
     class="container-fluid d-flex flex-wrap justify-content-evenly align-items-center gap-5"
   >
     {{! agrega una tarjeta por producto, si el produto tiene status falso lo ignora }}
-    {{#each products}}
+    {{#each products.docs}}
       {{#if this.status}}
         <div class="card mb-3" style="max-width: 540px;">
           <div class="row">

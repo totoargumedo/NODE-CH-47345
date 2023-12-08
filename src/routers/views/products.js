@@ -14,11 +14,13 @@ productsRouter.get("/realtimeproducts", async (req, res) => {
 //products
 productsRouter.get("/", async (req, res, next) => {
   try {
-    const products = await service.getAll();
+    const { page, limit } = req.query;
+    const products = await service.getAll(page, limit);
+    console.log(products);
     //separo el primer producto para el destacado
     res.render("products", {
       title: "Hutt Commerce",
-      active: products[0],
+      active: products.docs[0],
       products: products,
     });
   } catch (error) {

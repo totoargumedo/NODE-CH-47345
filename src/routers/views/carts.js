@@ -11,6 +11,7 @@ cartsRouter.get("/:id", async (req, res, next) => {
     res.render("cart", {
       title: "Hutt Commerce",
       products: cart.products,
+      cid: id,
     });
   } catch (error) {
     next(error);

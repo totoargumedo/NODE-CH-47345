@@ -7,12 +7,14 @@ import { Server } from "socket.io";
 import * as service from "./services/product.services.js";
 import * as serviceMessages from "./services/messages.service.js";
 import { initMongo } from "./daos/mongodb/connection.js";
+import { errorHandler } from "./middlewares/errorHandler.js";
+import { notFoundHandler } from "./middlewares/notFoundHandler.js";
 
 //server
 
 const app = express();
 
-//confige the response is sent to the client but it is not happening and instead it is running and hence also triggering any other response. So what you need to do is to add return before any res.status or res.json line.
+//options
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -26,6 +28,10 @@ app.set("view engine", "handlebars");
 
 //routers
 app.use("/", indexRouter);
+
+//middlewares
+app.use(errorHandler);
+app.use(notFoundHandler);
 
 //inicializacion server
 const persistance = "MONGO";
