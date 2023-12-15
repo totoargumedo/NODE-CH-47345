@@ -8,8 +8,8 @@
     class="form-signin bg-dark p-5 text-light d-flex flex-column gap-3 justify-content-center align-items-center rounded-5"
   >
     <img class="mb-4" src="/assets/logo.png" alt="" width="72" height="72" />
-    <h1 class="h3 mb-3 font-weight-normal">Ingresar</h1>
-    <label for="inputEmail" class="sr-only">Dirección de correo</label>
+    <h1 class="h3 mb-3 font-weight-normal">Registro de nuevo usuario</h1>
+    <label for="inputEmail" class="sr-only">Nombre</label>
     <input
       type="email"
       name="email"
@@ -17,6 +17,14 @@
       placeholder="usuario@ejemplo.com"
       required
       autofocus
+    />
+    <label for="inputEmail" class="sr-only">Dirección de correo</label>
+    <input
+      type="email"
+      name="email"
+      class="form-control"
+      placeholder="usuario@ejemplo.com"
+      required
     />
     <label for="inputPassword" class="sr-only">Password</label>
     <input
@@ -35,11 +43,11 @@
     <button
       class="btn btn-lg btn-outline-light btn-block"
       type="submit"
-    >CREAR</button>
-    <p class="">¿Primera vez?</p>
+    >Crear</button>
+    <p class="">¿Ya tenes cuenta?</p>
     <button
       class="btn btn-lg btn-outline-light btn-block"
-      onclick="location.href='/users/register'"
-    >Registrate</button>
+      onclick="location.href='/api/users/register'"
+    >Login</button>
   </form>
 </div>

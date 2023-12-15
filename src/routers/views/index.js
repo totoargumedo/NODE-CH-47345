@@ -3,6 +3,7 @@ import productsRouter from "./products.js";
 import * as service from "../../services/product.services.js";
 import cartsRouter from "./carts.js";
 import messagesRouter from "./messages.js";
+import usersRouter from "./users.js";
 
 const viewsRouter = Router();
 
@@ -10,6 +11,7 @@ const viewsRouter = Router();
 viewsRouter.use("/products", productsRouter);
 viewsRouter.use("/cart", cartsRouter);
 viewsRouter.use("/chat", messagesRouter);
+viewsRouter.use("/users", usersRouter);
 //index page
 viewsRouter.get("/", async (req, res, next) => {
   try {

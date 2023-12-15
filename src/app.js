@@ -1,22 +1,46 @@
+//librerias
 import express from "express";
-import indexRouter from "./routers/index.js";
 import handlebars from "express-handlebars";
 import "dotenv/config";
+import cookieParser from "cookie-parser";
+import session from "express-session";
+import MongoStore from "connect-mongo";
+
+//routers
+import indexRouter from "./routers/index.js";
+
+//utils
 import { __dirname } from "./utils.js";
 import { Server } from "socket.io";
+import "./daos/mongodb/connection.js";
+
+//servicios
 import * as service from "./services/product.services.js";
 import * as serviceMessages from "./services/messages.service.js";
-import { initMongo } from "./daos/mongodb/connection.js";
+
+//middlewares
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { notFoundHandler } from "./middlewares/notFoundHandler.js";
 
 //server
-
 const app = express();
+const mongoStoreOptions = {
+  store: MongoStore.create({
+    mongoUrl: process.env.DB_CONNECTION,
+    ttl: 600,
+    crypto: { secret: process.env.COOKIE_KEY },
+  }),
+  secret: process.env.COOKIE_KEY,
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 600000 },
+};
 
 //options
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser(process.env.COOKIE_KEY));
+app.use(session(mongoStoreOptions));
 
 //estaticos
 app.use(express.static(__dirname + "/public"));
@@ -34,10 +58,7 @@ app.use(errorHandler);
 app.use(notFoundHandler);
 
 //inicializacion server
-const persistance = "MONGO";
-
 const httpServer = app.listen(process.env.PORT, async () => {
-  if (persistance === "MONGO") await initMongo();
   console.log(`Server runnning on port ${process.env.PORT}`);
 });
 
