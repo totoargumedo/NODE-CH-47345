@@ -4,6 +4,7 @@ import * as service from "../../services/product.services.js";
 import cartsRouter from "./carts.js";
 import messagesRouter from "./messages.js";
 import usersRouter from "./users.js";
+import errorsRouter from "./errors.js";
 
 const viewsRouter = Router();
 
@@ -12,14 +13,22 @@ viewsRouter.use("/products", productsRouter);
 viewsRouter.use("/cart", cartsRouter);
 viewsRouter.use("/chat", messagesRouter);
 viewsRouter.use("/users", usersRouter);
+viewsRouter.use("/errors", errorsRouter);
 //index page
 viewsRouter.get("/", async (req, res, next) => {
   try {
-    const products = await service.getAll(1, 5);
-    const toRender = [...products.docs];
-    //coloco una propiedad temporal al primer producto para el atributo "active" en el carrousel
-    toRender[0].activeImage = true;
-    res.render("index", { title: "Hutt Commerce", products: toRender });
+    if (req.session.user) {
+      const products = await service.getAll(1, 3);
+      res.render("index", {
+        title: "Hutt Commerce",
+        products: products.docs,
+        user: req.session.user.first_name,
+      });
+    } else {
+      res.render("index", {
+        title: "Hutt Commerce",
+      });
+    }
   } catch (error) {
     next(error);
   }

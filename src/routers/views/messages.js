@@ -10,6 +10,7 @@ messagesRouter.get("/", async (req, res, next) => {
     console.log(messages);
     res.render("chat", {
       title: "Hutt Commerce",
+      user: req.session.user.first_name,
     });
   } catch (error) {
     next(error);

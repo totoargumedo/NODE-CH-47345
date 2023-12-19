@@ -2,44 +2,77 @@
   class="d-flex flex-column justify-content-center align-items-center gap-5"
   style="height:100vh;"
 >
-  <form
-    action="/api/users/login"
-    method="POST"
-    class="form-signin bg-dark p-5 text-light d-flex flex-column gap-3 justify-content-center align-items-center rounded-5"
+  {{#if user}}
+    <div
+    class="container-fluid d-flex flex-wrap justify-content-center align-items-center"
   >
-    <img class="mb-4" src="/assets/logo.png" alt="" width="72" height="72" />
-    <h1 class="h3 mb-3 font-weight-normal">Ingresar</h1>
-    <label for="inputEmail" class="sr-only">Dirección de correo</label>
-    <input
-      type="email"
-      name="email"
-      class="form-control"
-      placeholder="usuario@ejemplo.com"
-      required
-      autofocus
-    />
-    <label for="inputPassword" class="sr-only">Password</label>
-    <input
-      type="password"
-      class="form-control"
-      name="password"
-      placeholder="Password"
-      required
-    />
-    {{! <div class="checkbox mb-3">
+    <img class="m-4" src="/assets/logo.png" alt="" width="72" height="72" />
+      <h1 class="h3 mb-3 font-weight-normal">Hutt Commerce</h1>
+  </div>  
+    <div
+    class="container-fluid d-flex flex-wrap justify-content-evenly align-items-center gap-5"
+  >
+    {{#each products}}
+      <div class="card text-bg-dark m-3" style="height: 30vh;width:30vw;">
+      <img
+        {{#with this.thumbnails}}
+          src="{{this.[0]}}"
+        {{/with }}
+        class="card-img"
+        alt="{{this.title}}"
+          style="height: 100%;width:100%;object-fit:cover;"
+      />
+       
+      <div class="card-img-overlay">
+        <h5 class="card-title">{{this.title}}</h5>
+        <p class="card-text">{{this.description}}</p>
+        <p class="card-text"><small>$ {{this.price}}</small></p>
+        <a href="/products/{{this._id}}" class="stretched-link"></a>
+      </div>
+    </div>
+    {{/each}}
+    </div>  
+  {{else}}
+    <form
+      action="/api/users/login"
+      method="POST"
+      class="form-signin bg-dark p-5 text-light d-flex flex-column gap-3 justify-content-center align-items-center rounded-5"
+    >
+      <img class="mb-4" src="/assets/logo.png" alt="" width="72" height="72" />
+      <h1 class="h3 mb-3 font-weight-normal">Ingresar</h1>
+      <label for="inputEmail" class="sr-only">Dirección de correo</label>
+      <input
+        type="email"
+        name="email"
+        class="form-control"
+        placeholder="usuario@ejemplo.com"
+        required
+        autofocus
+      />
+      <label for="inputPassword" class="sr-only">Password</label>
+      <input
+        type="password"
+        class="form-control"
+        name="password"
+        placeholder="Password"
+        required
+      />
+      {{! <div class="checkbox mb-3">
       <label>
         <input type="checkbox" value="remember-me" name="remember-me"/>
         Remember me
       </label>
     </div> }}
-    <button
-      class="btn btn-lg btn-outline-light btn-block"
-      type="submit"
-    >CREAR</button>
-    <p class="">¿Primera vez?</p>
-    <button
-      class="btn btn-lg btn-outline-light btn-block"
-      onclick="location.href='/users/register'"
-    >Registrate</button>
-  </form>
+      <button
+        class="btn btn-lg btn-outline-light btn-block"
+        type="submit"
+      >Ingresar</button>
+      <p class="">¿Primera vez?</p>
+      <button
+        class="btn btn-lg btn-outline-light btn-block"
+        onclick="location.href='/users/register'"
+      >Registrate</button>
+    </form>
+  {{/if}}
+
 </div>

@@ -7,9 +7,9 @@ export default class UserController {
     try {
       const newUser = await userServices.create(req.body);
       if (!newUser) {
-        res.status(400).json({ error: "User already exists" });
+        res.redirect("/users/register-error");
       } else {
-        res.status(201).json(newUser);
+        res.redirect("/");
       }
     } catch (error) {
       next(error);
@@ -18,13 +18,22 @@ export default class UserController {
 
   async login(req, res, next) {
     try {
-      console.log(req.body);
       const user = await userServices.login(req.body);
       if (!user) {
-        res.status(400).json({ error: "User not found" });
+        res.redirect("/users/login-error");
       } else {
-        res.status(200).json(user);
+        req.session.user = user;
+        res.redirect("/");
       }
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async logout(req, res, next) {
+    try {
+      req.session.destroy();
+      res.redirect("/");
     } catch (error) {
       next(error);
     }

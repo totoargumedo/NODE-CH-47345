@@ -1,53 +1,92 @@
 <div
-  class="d-flex flex-column justify-content-center align-items-center gap-5"
-  style="height:100vh;"
+  class="d-flex flex-column justify-content-center align-items-center"
+  style="min-height:85vh;"
 >
   <form
-    action="/api/users/login"
+    action="/api/users/register"
     method="POST"
     class="form-signin bg-dark p-5 text-light d-flex flex-column gap-3 justify-content-center align-items-center rounded-5"
   >
     <img class="mb-4" src="/assets/logo.png" alt="" width="72" height="72" />
     <h1 class="h3 mb-3 font-weight-normal">Registro de nuevo usuario</h1>
-    <label for="inputEmail" class="sr-only">Nombre</label>
-    <input
-      type="email"
-      name="email"
-      class="form-control"
-      placeholder="usuario@ejemplo.com"
-      required
-      autofocus
-    />
-    <label for="inputEmail" class="sr-only">Dirección de correo</label>
-    <input
-      type="email"
-      name="email"
-      class="form-control"
-      placeholder="usuario@ejemplo.com"
-      required
-    />
-    <label for="inputPassword" class="sr-only">Password</label>
-    <input
-      type="password"
-      class="form-control"
-      name="password"
-      placeholder="Password"
-      required
-    />
-    {{! <div class="checkbox mb-3">
-      <label>
-        <input type="checkbox" value="remember-me" name="remember-me"/>
-        Remember me
-      </label>
-    </div> }}
-    <button
-      class="btn btn-lg btn-outline-light btn-block"
-      type="submit"
-    >Crear</button>
-    <p class="">¿Ya tenes cuenta?</p>
-    <button
-      class="btn btn-lg btn-outline-light btn-block"
-      onclick="location.href='/api/users/register'"
-    >Login</button>
+
+    <div class="row">
+      <div class="px-2 col-md-6">
+        <label for="first_name" class="">Nombre</label>
+        <input
+          type="text"
+          name="first_name"
+          id="first_name"
+          class="form-control"
+          placeholder="María"
+          required
+          autofocus
+        />
+      </div>
+      <div class="px-2 col-md-6">
+        <label for="last_name" class="">Apellido</label>
+        <input
+          type="text"
+          name="last_name"
+          id="last_name"
+          class="form-control"
+          placeholder="Gónzalez"
+          required
+        />
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="">
+        <label for="email">Dirección de correo</label>
+        <input
+          type="email"
+          name="email"
+          id="email"
+          class="form-control"
+          placeholder="maria.gonzalez@ejemplo.com"
+          required
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="px-2 col-md-3">
+        <label for="age">Edad</label>
+        <input
+          type="number"
+          name="age"
+          id="age"
+          min="16"
+          class="form-control"
+          placeholder="18"
+          required
+        />
+      </div>
+      <div class="px-2 col-md-9">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          name="password"
+          id="password"
+          placeholder="***********"
+          required
+        />
+      </div>
+    </div>
+    <div class="row w-100 text-center">
+      <div class="col align-self-center">
+        <button
+          class="btn btn-lg btn-outline-light btn-block"
+          type="submit"
+        >Crear</button>
+      </div>
+      <div class="col align-self-center">
+        <p class="">¿Ya tenes cuenta?</p>
+        <button
+          class="btn btn-lg btn-outline-light btn-block"
+          onclick="location.href='/'"
+        >Login</button>
+      </div>
+    </div>
   </form>
 </div>

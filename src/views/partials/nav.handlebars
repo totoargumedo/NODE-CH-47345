@@ -42,6 +42,11 @@
         <li class="nav-item">
           <a class="nav-link" href="/cart/65725190328f701a6a911a20">Carrito</a>
         </li>
+        {{#if user}}
+          <li class="nav-item">
+            <a class="nav-link" href="/api/users/logout">Logout</a>
+          </li>
+        {{/if}}
         <li class="nav-item dropdown">
           <a
             class="nav-link dropdown-toggle"
@@ -65,5 +70,10 @@
         </li>
       </ul>
     </div>
+    {{#if user}}
+      <div class="float-right">
+        <h4 class="text-light font-weight-normal">{{user}}</h4>
+      </div>
+    {{/if}}
   </div>
 </nav>
