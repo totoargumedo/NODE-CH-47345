@@ -5,8 +5,7 @@ const userServices = new UserServices();
 export default class UserController {
   async create(req, res, next) {
     try {
-      const newUser = await userServices.create(req.body);
-      if (!newUser) {
+      if (!req.session.passport) {
         res.redirect("/users/register-error");
       } else {
         res.redirect("/");
@@ -18,11 +17,35 @@ export default class UserController {
 
   async login(req, res, next) {
     try {
-      const user = await userServices.login(req.body);
+      const id = req.session.passport.user;
+      const user = await userServices.getById(id);
       if (!user) {
         res.redirect("/users/login-error");
       } else {
-        req.session.user = user;
+        req.session.user = {
+          first_name: user.first_name,
+          last_name: user.last_name,
+          email: user.email,
+          age: user.age,
+        };
+        res.redirect("/");
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async loginGithub(req, res, next) {
+    try {
+      const id = req.session.passport.user;
+      const user = await userServices.getById(id);
+      if (!user) {
+        res.redirect("/users/login-error");
+      } else {
+        req.session.user = {
+          first_name: user.first_name,
+          email: user.email,
+        };
         res.redirect("/");
       }
     } catch (error) {

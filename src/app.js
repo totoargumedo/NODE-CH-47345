@@ -4,7 +4,9 @@ import handlebars from "express-handlebars";
 import "dotenv/config";
 import cookieParser from "cookie-parser";
 import session from "express-session";
-import MongoStore from "connect-mongo";
+import passport from "passport";
+import "./passport/local.strategies.js";
+import "./passport/github.strategy.js";
 
 //routers
 import indexRouter from "./routers/index.js";
@@ -13,6 +15,7 @@ import indexRouter from "./routers/index.js";
 import { __dirname } from "./utils.js";
 import { Server } from "socket.io";
 import "./daos/mongodb/connection.js";
+import { mongoStoreOptions } from "./utils.js";
 
 //servicios
 import * as service from "./services/product.services.js";
@@ -24,23 +27,14 @@ import { notFoundHandler } from "./middlewares/notFoundHandler.js";
 
 //server
 const app = express();
-const mongoStoreOptions = {
-  store: MongoStore.create({
-    mongoUrl: process.env.DB_CONNECTION,
-    ttl: 600,
-    crypto: { secret: process.env.COOKIE_KEY },
-  }),
-  secret: process.env.COOKIE_KEY,
-  resave: false,
-  saveUninitialized: false,
-  cookie: { maxAge: 600000 },
-};
 
 //options
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.COOKIE_KEY));
 app.use(session(mongoStoreOptions));
+app.use(passport.initialize());
+app.use(passport.session());
 
 //estaticos
 app.use(express.static(__dirname + "/public"));

@@ -1,6 +1,6 @@
 # NODE-CH-47345
 
-# Desafio 8
+# Desafio 9
 
 Se crea clase manager para productos
 Se crea servidor http con rutas get
@@ -11,10 +11,11 @@ Se implemento websocket para carga en tiempo real
 Se creo logica de capas dao/servicios/controladores/routers
 Se implemento MongoDB
 Logica de usuarios
+Estrategias de passport-local passpot-github
 
 ## Iniciar el server
 
-Se configuraron script en el [package.json](https://github.com/totoargumedo/NODE-CH-47345/blob/sprint1/package.json) para iniciar el archivo app.js con las pruebas
+Se configuraron script en el [package.json](https://github.com/totoargumedo/NODE-CH-47345/package.json) para iniciar el archivo app.js con las pruebas
 
 ```bash
 npm run start

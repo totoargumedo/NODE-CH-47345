@@ -40,6 +40,7 @@
     >
       <img class="mb-4" src="/assets/logo.png" alt="" width="72" height="72" />
       <h1 class="h3 mb-3 font-weight-normal">Ingresar</h1>
+     
       <label for="inputEmail" class="sr-only">Dirección de correo</label>
       <input
         type="email"
@@ -67,12 +68,18 @@
         class="btn btn-lg btn-outline-light btn-block"
         type="submit"
       >Ingresar</button>
+       <a
+        class="btn btn-lg btn-outline-light btn-block"
+        href="/api/users/register-github"
+          role="button"
+      >Inicia con Github</a>
       <p class="">¿Primera vez?</p>
       <button
         class="btn btn-lg btn-outline-light btn-block"
         onclick="location.href='/users/register'"
       >Registrate</button>
     </form>
+    
   {{/if}}
 
 </div>

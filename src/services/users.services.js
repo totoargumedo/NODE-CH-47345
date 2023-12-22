@@ -22,4 +22,24 @@ export default class UserServices {
       console.log("User service error: " + error);
     }
   }
+
+  async getById(id) {
+    try {
+      const userExists = await userDao.getById(id);
+      if (!userExists) return false;
+      else return userExists;
+    } catch (error) {
+      console.log("User service error: " + error);
+    }
+  }
+
+  async getByEmail(email) {
+    try {
+      const userExists = await userDao.getByEmail(email);
+      if (!userExists) return false;
+      else return userExists;
+    } catch (error) {
+      console.log("User service error: " + error);
+    }
+  }
 }
